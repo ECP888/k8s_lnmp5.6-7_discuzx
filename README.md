@@ -143,7 +143,6 @@ kubectl get svc dz-mysql //查看service的cluster-ip，我的是10.68.122.120
 mysql -uroot -h10.68.122.120 -pDzPasswd1  //这里的密码是在上面步骤中设置的那个密码
 
 > create database dz;
-
 > grant all on dz.* to 'dz'@'%' identified by 'dz-passwd-123';
 
 
