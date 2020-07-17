@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dz-web
+  labels:
+    app: discuz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discuz
+      tier: nginx-php
+  template:
+    metadata:
+      labels:
+        app: discuz
+        tier: nginx-php
+    spec:
+      imagePullSecrets:
+      - name: harbor-secret
+      containers:
+      - image: 192.168.168.219/lnmp/nginx-php:v5.6.3
+        imagePullPolicy: IfNotPresent
+        #command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
+        name: dz-web
+        ports:
+        - containerPort: 9000
+        - containerPort: 80
+          name: dz-web
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/www/html/
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: web-claim
