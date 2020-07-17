@@ -1,7 +1,9 @@
 #  kubernetes1.8.4 部署lnmp+discuz
 
 在kubernetes中搭建LNMP环境，并安装Discuzx
+
 本实验，需要已经搭建好kubernetes集群和harbor服务。
+
 首先克隆本项目：git clone https://github.com/donxan/k8s_lnmp_discuzx.git
 
 #  1.下载镜像
@@ -124,6 +126,7 @@ kubectl apply -f web-svc.yaml
 
 #  8.安装Discuz
 下载dz代码 (到NFS服务器上)
+
 cd /tmp/
 
 git clone https://gitee.com/ComsenzDiscuz/DiscuzX.git
@@ -136,8 +139,11 @@ chown -R 100 data uc_server/data/ uc_client/data/ config/
 
 #  9.设置MySQL普通用户
 kubectl get svc dz-mysql //查看service的cluster-ip，我的是10.68.122.120
+
 mysql -uroot -h10.68.122.120 -pDzPasswd1  //这里的密码是在上面步骤中设置的那个密码
+
 > create database dz;
+
 > grant all on dz.* to 'dz'@'%' identified by 'dz-passwd-123';
 
 
@@ -147,8 +153,11 @@ http://ip地址/+DiscuzX
 
 #  11.部署traefik ingress
 cd ../../k8s_discuz/nginx_php
+
 kubectl apply -f web-ingress.yaml
+
 https://s1.51cto.com/images/blog/201901/20/48b397117a87913cfa8535effcd2136e.png?x-oss-process=image/watermark,size_16,text_QDUxQ1RP5Y2a5a6i,color_FFFFFF,t_100,g_se,x_10,y_10,shadow_90,type_ZmFuZ3poZW5naGVpdGk=)
+
 如果没有部署ingress，可以使用安装nginx,配置nginx反向代理。
 
 参考如下:
