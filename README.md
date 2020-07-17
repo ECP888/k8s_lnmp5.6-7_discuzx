@@ -7,11 +7,13 @@
 #  1.下载镜像
 mysql5.7+php7用如下镜像：
 docker pull mysql:5.7
+
 docker pull richarvey/nginx-php-fpm
 
 #  2.mysql5.6+php5.6用如下镜像：
 基础镜像：
 docker pull mysql:5.6
+
 docker pull php:5.6-fpm-alpine
 
 #  nginx+PHP二合一镜像构建：
@@ -19,22 +21,27 @@ docker pull php:5.6-fpm-alpine
 #  3.mysql5.7+php7环境
 #### 用dockerfile重建nginx-php-fpm镜像
 cd k8s_discuz/dz_web_dockerfile/
+
 docker build -t nginx-php .
 
 #### 用dockerfile重建mysql5.7镜像
 cd k8s_discuz/dz_mysql_dockerfile/
+
 docker build -t mysql5.7 .
 
 #### mysql5.6+php5.6环境
 用dockerfile重建nginx-php-fpm镜像
 cd k8s_discuz/nginx-php-fpm
+
 docker build -t nginx-php-fpm:5.6 .
 
 #### 用dockerfile重建mysql5.6镜像
 cd k8s_discuz/dz_mysql_dockerfile/
+
 docker build -t mysql:5.6 .
 
 cd k8s_discuz/dz_web_dockerfile/
+
 修改：该目录下面Dockerfile文件中FROM为如下内容：
 FROM 192.168.168.219/lnmp/nginx-php-fpm:5.6
 
