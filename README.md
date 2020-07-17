@@ -51,11 +51,14 @@ docker build -t nginx-php .
 #  4.将镜像push到harbor
 #### 登录harbor，并push新的镜像
 docker login -u admin -p Harbor12345 192.168.168.219  //输入正确的用户名和密码,如果之前已创建secret，就可以免输入密码
-docker tag nginx-php 192.168.168.219/lnmp/nginx-php
-docker push 192.168.168.219/lnmp/nginx-php
 
-docker tag mysql:5.7 192.168.168.219/lnmp/mysql:5.7
-docker push 192.168.168.219/lnmp/mysql:5.7
+docker tag nginx-php  192.168.168.219/lnmp/nginx-php
+
+docker push  192.168.168.219/lnmp/nginx-php
+
+docker tag mysql:5.7  192.168.168.219/lnmp/mysql:5.7
+
+docker push  192.168.168.219/lnmp/mysql:5.7
 
 #  5.搭建NFS
 #### 可以参考以下：
@@ -66,14 +69,17 @@ yum install nfs-utils
 
 #### 编辑配置文件
 vim /etc/exportfs  //内容如下
+
 /data/k8s/ 192.168.168.0/24(sync,rw,no_root_squash)
 
 #### 启动服务
 systemctl start nfs
+
 systemctl enable nfs
 
 #### 创建目录
 mkdir -p  /data/k8s/lnmp/{db,web}
+
 注意db，web的属主，db999,web 100.
 
 #  6.搭建MySQL服务
@@ -82,6 +88,7 @@ kubectl create secret generic mysql-pass --from-literal=password=lnmp123
 
 #### 创建pv
 cd ../../k8s_discuz/mysql
+
 kubectl apply -f mysql-pv.yaml
 
 #### 创建pvc
@@ -99,6 +106,7 @@ kubectl apply -f mysql-svc.yaml
 
 #### 搭建pv
 cd ../../k8s_discuz/nginx_php
+
 kubectl apply -f web-pv.yaml
 
 #### 创建pvc
@@ -114,8 +122,11 @@ kubectl apply -f web-svc.yaml
 下载dz代码 (到NFS服务器上)
 cd /tmp/
 git clone https://gitee.com/ComsenzDiscuz/DiscuzX.git
+
 cd /data/k8s/lnmp/web/
+
 mv /tmp/DiscuzX/upload/* .
+
 chown -R 100 data uc_server/data/ uc_client/data/ config/
 
 #  9.设置MySQL普通用户
