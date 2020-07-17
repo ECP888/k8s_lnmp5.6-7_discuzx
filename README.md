@@ -6,12 +6,14 @@
 
 #  1.下载镜像
 mysql5.7+php7用如下镜像：
+
 docker pull mysql:5.7
 
 docker pull richarvey/nginx-php-fpm
 
 #  2.mysql5.6+php5.6用如下镜像：
 基础镜像：
+
 docker pull mysql:5.6
 
 docker pull php:5.6-fpm-alpine
@@ -31,6 +33,7 @@ docker build -t mysql5.7 .
 
 #### mysql5.6+php5.6环境
 用dockerfile重建nginx-php-fpm镜像
+
 cd k8s_discuz/nginx-php-fpm
 
 docker build -t nginx-php-fpm:5.6 .
@@ -43,6 +46,7 @@ docker build -t mysql:5.6 .
 cd k8s_discuz/dz_web_dockerfile/
 
 修改：该目录下面Dockerfile文件中FROM为如下内容：
+
 FROM 192.168.168.219/lnmp/nginx-php-fpm:5.6
 
 #### 根据实际项目需要修改重构nginx-php镜像：
@@ -121,6 +125,7 @@ kubectl apply -f web-svc.yaml
 #  8.安装Discuz
 下载dz代码 (到NFS服务器上)
 cd /tmp/
+
 git clone https://gitee.com/ComsenzDiscuz/DiscuzX.git
 
 cd /data/k8s/lnmp/web/
